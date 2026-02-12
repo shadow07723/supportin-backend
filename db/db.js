@@ -1,9 +1,14 @@
 const { Pool } = require("pg");
-require("dotenv").config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // Render automatically ise utha lega
-  ssl: { rejectUnauthorized: false } // Live server ke liye zaroori hai
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  ssl: {
+    rejectUnauthorized: false, // यह लाइन रेंडर के लिए बहुत ज़रूरी है
+  },
 });
 
 module.exports = pool;
