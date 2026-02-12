@@ -1,24 +1,26 @@
 const express = require("express");
 const cors = require("cors");
-const authRoutes = require("./routes/authRoutes"); // File path check kar lein
+require("dotenv").config(); // .env फाइल्स को लोड करने के लिए इसे सबसे ऊपर रखें
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors()); // Ye live frontend (Vercel) se baat karne ke liye zaroori hai
+// 1. CORS Middleware (इसे Routes से पहले रखें)
+app.use(cors());
+
+// 2. JSON Body Parser (Frontend से आने वाले डेटा को पढ़ने के लिए)
 app.use(express.json());
 
-// Routes ko connect karein
-// Ab aapke endpoints honge: /api/auth/register aur /api/auth/login
+// 3. API Routes
 app.use("/api/auth", authRoutes);
 
-// Test route
+// 4. Test Route (Browser में चेक करने के लिए)
 app.get("/", (req, res) => {
-  res.send("Backend is live and running!");
+  res.send("Backend is live and running on Render!");
 });
 
-// Port setting
-const PORT = process.env.PORT || 5000;
+// 5. Port Setting (Render हमेशा process.env.PORT का उपयोग करता है)
+const PORT = process.env.PORT || 10000; // Render का डिफ़ॉल्ट पोर्ट 10000 होता है
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
